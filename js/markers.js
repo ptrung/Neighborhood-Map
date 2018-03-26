@@ -12,7 +12,7 @@ var locations = [
         flickr: 'Mönchsberg Aussicht'
     },
     {
-        title: 'Leopoldskroner Weiher',
+        title: 'Schloss Leopoldskron',
         lat: 47.786639,
         lng: 13.036336,
         flickr: 'Schloss Leopoldskron'

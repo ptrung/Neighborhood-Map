@@ -12,8 +12,11 @@
 
 <body>
     <header>
-        <span class="burger" onclick="toggleNav()">&#9776;</span>
-        <h1>Salzburg's Photospots</h1>
+        <div class="burger" onclick="toggleNav()">&#9776;</div>
+        <div class="headline">
+            <h1>Salzburg's Photospots</h1>
+            <h2>powered by Flickr, Wikipedia and Google Maps</h2>
+        </div>
     </header>
     <aside class="sidebar">
         <input type="text" data-bind="textInput: searchOption, valueUpdate: 'afterkeydown'" placeholder="Type to filter Locations...">
@@ -24,7 +27,7 @@
     <main id="main">
         <div id="map"></div>
         <div class="information">
-            <div id="gallery" class="gallery">
+            <section id="gallery" class="infoblock">
                 <div class="flickrImage" data-bind="with: currentImage()">
                     <a target="_tab" href="" data-bind="attr: {href: $data.sourceUrl}">
                         <img src="" alt="" data-bind="attr: {src: $data.imgSrc}">
@@ -34,9 +37,11 @@
                         <button class="arrow-left-right" data-bind="click: $parent.nextImage">&#707;</button>
                     </div>
                 </div>
-            </div>
-            <div id="info" class="details" data-bin="text: details">
-            </div>
+            </section>
+            <section id="wiki" class="infoblock">
+                <div class="wikiText" data-bind="html: wikiInfo">
+                </div>
+            </section>
         </div>
     </main>
 

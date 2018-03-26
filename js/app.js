@@ -4,12 +4,16 @@ var map;
 function AppViewModel() {
     var self = this;
     this.maxImages = 10;
+    this.defaultWikiQuery = 'Salzburg';
+    this.wikiHTML = '';
     
     this.markers = [];
     
     this.searchOption = ko.observable("");
     this.currentImageList = ko.observableArray([{imgSrc: "#", sourceUrl: "", imgAlt: "Sry. Couldn't find photos!"}]);
     this.currentImageId = ko.observable(0);
+    
+    this.wikiInfo = ko.observable("<b>Wikipedia is loading ...</b>");
     
     this.currentImage = ko.computed(function() {
         return this.currentImageList()[this.currentImageId()];
@@ -19,7 +23,7 @@ function AppViewModel() {
         var anchorLink = '';
         
         if ($(window).width() < 992)
-            anchorLink = '<a class="infoLink" href="#gallery">Show images</a><a class="infoLink" href="#info">Show informations</a>';
+            anchorLink = '<a class="infoLink" href="#gallery">Show images</a><a class="infoLink" href="#wiki">Show informations</a>';
         
         if (info.marker != marker) {
             info.setContent('');
@@ -33,7 +37,7 @@ function AppViewModel() {
 
             info.addListener('closeclick', function() {
                 info.marker = null;
-                this.deselectMarker();
+                self.deselectMarker();
             });
         }
     };
@@ -45,7 +49,6 @@ function AppViewModel() {
             "&text=" + flickrText + 
             "&per_page=" + self.maxImages + "&privacy_filter=1&format=json&nojsoncallback=1";
         $.getJSON(flickrSearchUrl, function(data) {
-            console.log(data);
             if (data.stat === 'ok') {
                 var imageUrl, sourceUrl;
                 data.photos.photo.forEach(function(photo) {
@@ -67,10 +70,56 @@ function AppViewModel() {
         var location = locations.find(o => (o.lat === marker.lat && o.lng === marker.lng));
         return location.flickr; 
     }
+    
+    this.getWikiText = function(query) {
+        var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + query + '&format=json&callback=wikiCallback';
+        var wikiRequestTimeout = setTimeout(function(){
+            self.wikiInfo("Failed to get wikipedia resources");
+        }, 8000);
+
+        $.ajax({
+            url: wikiUrl,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function( response ) {
+                if(query.localeCompare(self.defaultWikiQuery) != 0)
+                     wikiHTML = '';
+
+                if (response[1].length === 0 && query != self.defaultWikiQuery) {
+                    wikiHTML = "<p>Sry, couldn't find informations about <b>" + query + "</b> on wikipedia</p>";
+                    self.getWikiText(self.defaultWikiQuery);
+                } else if (response[1].length > 0){
+                    var title = response[1][0];
+                    var info = response[2][0];
+                    var url = response[3][0];
+                    
+                    wikiHTML += '<h3>'+title+'</h3><p class="justify">'+info+'</p><p><a class="wikiUrl" href="'+url+
+                        '">Link to full Wikipedia article</a></p>';
+                    
+                    self.wikiInfo(wikiHTML);
+                }
+                clearTimeout(wikiRequestTimeout);
+            }
+        });
+    }
+    
+    this.showInformation = function() {
+        if ($(window).width() >= 992)
+            $("#map").css("width", "calc(100vw - 300px)");
+            
+        $(".information").css("display", "block");
+    };
+    
+    this.hideInformation = function() {
+        $("#map").css("width", "100vw");
+        $(".information").css("display", "none");
+    };
 
     this.selectMarker = function() {
+        self.showInformation();
         self.currentImageList.removeAll();
         self.getFlickrPic(this);
+        self.getWikiText(this.title);
         self.showInfoWindow(this, self.infoWindow);
         this.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout((function() {
@@ -79,7 +128,7 @@ function AppViewModel() {
     };
     
     this.deselectMarker = function() {
-        //set info to default
+        self.hideInformation();
     };
     
     this.setBounds = function (visibleLocations) {

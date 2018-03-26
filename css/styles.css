@@ -2,6 +2,10 @@
   width: device-width;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     box-sizing: border-box;
     -ms-overflow-style: scrollbar;
@@ -14,16 +18,24 @@ html, body {
 
 header {
     padding-left: 10px;
-    height: 50px;
+    height: 60px;
     background-color: #222;
     color: #ddd;
+    display: flex;
 }
 
 h1 {
+    display: block;
+    margin: 0;
+    font-size: 15px; 
+}
+
+h2 {
+    display: block;
     margin-top: auto;
     margin-bottom: auto;
-    display: inline;
-    font-size: 15px; 
+    font-size: 12px; 
+    font-weight: normal;
 }
 
 main {
@@ -31,17 +43,29 @@ main {
     flex-wrap: wrap;
 }
 
+.headline {
+    display: inline;
+    width: calc(100vw - 50px);
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 #map {
-    height: calc(100vh - 50px);
+    height: calc(100vh - 60px);
     width: 100vw;
+}
+
+.justify {
+    text-align: justify;
 }
 
 .information {
     height: 200vh;
     background-color: #222;
+    display: none;
 }
 
-.gallery {
+.infoblock {
     margin: auto;
     display: flex;
     width: 100vw;
@@ -61,10 +85,13 @@ main {
     max-height: calc(100vh - 60px);
 }
 
-.details {
-    background-color: red;
+.wikiText {
     width: 100vw;
-    height: 100vh;
+    padding: 50px;
+    text-align: center;
+    margin: auto;
+    color: #ddd;
+    overflow-y: auto;
 }
 
 .button-group {
@@ -95,7 +122,7 @@ main {
 
 @media (min-width: 768px) {
     #map {
-        height: calc(100vh - 50px);
+        height: calc(100vh - 60px);
         width: 100vw;
     }
     
@@ -103,7 +130,7 @@ main {
         height: 100vh;
     }
 
-    .gallery {
+    .infoblock {
         margin: auto;
         display: flex;
         width: 100vw;
@@ -123,7 +150,7 @@ main {
         max-height: calc(50vh - 60px);
     }
 
-    .details {
+    .wikiText {
         width: 100vw;
         height: 50vh;
     }
@@ -131,19 +158,19 @@ main {
 
 @media (min-width: 992px) {
     #map {
-        height: calc(100vh - 50px);
-        width: calc(100vw - 300px);
+        height: calc(100vh - 60px);
+        width: 100vw;
     }
     
     .information {
-        height: 100vh;
+        height: calc(100vh - 60px);
     }
 
-    .gallery {
+    .infoblock {
         margin: auto;
         display: flex;
         width: 300px;
-        height: 50vh;
+        height: calc(50vh - 30px);
         justify-content:center;
         align-items:center;
     }
@@ -155,13 +182,13 @@ main {
     }
 
     .flickrImage img {
-        max-width: 100%;
-        max-height: calc(50vh - 60px);
+        max-width: calc(100% - 10px);
+        max-height: calc(50vh - 90px);
     }
 
-    .details {
+    .wikiText {
         width: 300px;
-        height: 50vh;
+        height: calc(50vh - 30px);
     }
     
     h1 {
@@ -181,7 +208,7 @@ aside {
     background-color: #111;
     overflow-x: hidden;
     transition: 0s;
-    padding-top: 60px;
+    padding-top: 80px;
 }
 
 aside ul {
@@ -214,6 +241,10 @@ aside li:hover {
     cursor: pointer;
     padding-left: 10px;
     padding-right: 10px;
+    width: 50px;
+    display: inline;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 input[type=text] {
@@ -225,4 +256,26 @@ input[type=text] {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+.wikiUrl{
+    width: 100%;
+    max-height: 50px;
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0px;
+    color: #eee;
+    font-size: 15px;
+    padding: 10px 0px;
+    margin: 0;
+    background: #757575;
+    text-decoration: none;
+    border: none;
+    display: inline;
 }
