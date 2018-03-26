@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Neighborhood Map Project" content="Map of London(UK)">
+    
+    <title>Salzburg's Photospots</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <span class="burger" onclick="toggleNav()">&#9776;</span>
+        <h1>Salzburg's Photospots</h1>
+    </header>
+    <aside class="sidebar">
+        <input type="text" data-bind="textInput: searchOption, valueUpdate: 'afterkeydown'" placeholder="Type to filter Locations...">
+        <ul class="nav flex-column" data-bind="foreach: filteredLocations">
+            <li class="nav-item text-white location_list" data-bind="text: title, click: $parent.selectMarker"></li>
+        </ul>
+    </aside>
+    <main id="main">
+        <div id="map"></div>
+        <div class="information">
+            <div id="gallery" class="gallery">
+                <div class="flickrImage" data-bind="with: currentImage()">
+                    <a target="_tab" href="" data-bind="attr: {href: $data.sourceUrl}">
+                        <img src="" alt="" data-bind="attr: {src: $data.imgSrc}">
+                    </a>
+                    <div class="button-group">
+                        <button class="arrow-left-right" data-bind="click: $parent.prevImage">&#706;</button>
+                        <button class="arrow-left-right" data-bind="click: $parent.nextImage">&#707;</button>
+                    </div>
+                </div>
+            </div>
+            <div id="info" class="details" data-bin="text: details">
+            </div>
+        </div>
+    </main>
+
+    <script src="js/knockout-3.4.2.js" charset="utf-8"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/markers.js" charset="utf-8"></script>
+    <script src="js/styles.js" charset="utf-8"></script>
+    <script src="js/interaction.js" charset="utf-8"></script>
+    <script src="js/app.js" charset="utf-8"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBRTschOElF6NRclmCZymKOoGb0jKlNtfU&callback=runApp"
+        onerror="googleError()"></script>
+</body>
+</html>
