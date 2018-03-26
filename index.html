@@ -1,36 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="Neighborhood Map Project" content="Map of London(UK)">
-    
+    <meta name="Neighborhood Map Project" content="Map of Salzburg">
     <title>Salzburg's Photospots</title>
-
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-    <header>
-        <div class="burger" onclick="toggleNav()">&#9776;</div>
+    <!-- Header -->
+    <header class="header">
+        <div class="burger" onclick="toggleSidebar()">&#9776;</div>
         <div class="headline">
-            <h1>Salzburg's Photospots</h1>
-            <h2>powered by Flickr, Wikipedia and Google Maps</h2>
+            <h1 class="heading">Salzburg's Photospots</h1>
+            <h2 class="subheading">powered by Flickr, Wikipedia and Google Maps</h2>
         </div>
     </header>
+    <!-- Sidebar for filtering items -->
     <aside class="sidebar">
-        <input type="text" data-bind="textInput: searchOption, valueUpdate: 'afterkeydown'" placeholder="Type to filter Locations...">
-        <ul class="nav flex-column" data-bind="foreach: filteredLocations">
-            <li class="nav-item text-white location_list" data-bind="text: title, click: $parent.selectMarker"></li>
+        <input class="filter-input" type="text" data-bind="textInput: searchOption, valueUpdate: 'afterkeydown'" placeholder="Type to filter Locations...">
+        <ul class="location-list" data-bind="foreach: filteredLocations">
+            <li class="location-name" data-bind="text: title, click: $parent.selectMarker"></li>
         </ul>
     </aside>
+    <!-- Main -->
     <main id="main">
-        <div id="map"></div>
-        <div class="information">
-            <section id="gallery" class="infoblock">
-                <div class="flickrImage" data-bind="with: currentImage()">
+        <!-- Map -->
+        <div id="map" class="map"></div>
+        <!-- Information -->
+        <div class="information">            
+            <!-- Flickr Gallery -->
+            <section id="gallery" class="info-block">
+                <div class="flickr-gallery" data-bind="with: currentImage()">
                     <a target="_tab" href="" data-bind="attr: {href: $data.sourceUrl}">
-                        <img src="" alt="" data-bind="attr: {src: $data.imgSrc}">
+                        <img class="flickr-image" src="" alt="" data-bind="attr: {src: $data.imgSrc}">
                     </a>
                     <div class="button-group">
                         <button class="arrow-left-right" data-bind="click: $parent.prevImage">&#706;</button>
@@ -38,8 +41,9 @@
                     </div>
                 </div>
             </section>
-            <section id="wiki" class="infoblock">
-                <div class="wikiText" data-bind="html: wikiInfo">
+            <!-- Wiki Text -->
+            <section id="wiki" class="info-block">
+                <div class="wiki-text" data-bind="html: wikiInfo">
                 </div>
             </section>
         </div>
